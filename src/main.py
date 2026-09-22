@@ -27,17 +27,42 @@ def update_count(file: Path, counts: dict[Types, int]) -> None:
     write_yaml(file, data)
 
 
-def main():
-    file = Path("src\\config.yaml")
-    data = {
-        "type": Types.RUN,
-        "title": "morgen løb"
-    }
-
+def main_(file: Path, data: dict) -> dict:
     counts = load_counts(file)
     counts[data["type"]] += 1
     data["title"] = f'{(data["type"].value).title()} #{counts[data["type"]]}'
     update_count(file, counts)
+    return data
+
+
+
+
+
+def main():
+    file = Path("src\\config.yaml")
+    elements = [
+        {
+            "type": Types.RUN,
+            "title": "morgen løb",
+            "time": date
+        },
+        {
+            "type": Types.RUN,
+            "title": "morgen løb"
+        },
+        {
+            "type": Types.SVIMNING,
+            "title": "morgen svømning"
+        },
+    ]
+
+    # main
+    for d in elements:
+
+        data = main_(file, d)
+        for key, value in data.items():
+            print(f"{key:<5}: {value}")
+        print()
 
 
 if __name__ == "__main__":
