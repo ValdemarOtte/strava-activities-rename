@@ -1,8 +1,7 @@
 
-
-
+import datetime
 import yaml
-from main import Types, load_counts, update_count, main_
+from main import Types, load_counts, update_count, main_, get_last_updated
 
 
 
@@ -85,3 +84,18 @@ def test_main_(tmp_path):
     # Then
     assert data["title"] == "Run #56"
 
+def test_get_last_updated(tmp_path):
+    yaml_content = {
+        "counts": {
+            "run": 55,
+            "svimning": 12
+        },
+        "data": "Må ikke slettes",
+        "last_updated": "2026-09-22 14:30:00"
+    }
+    file = tmp_path / "config.yaml"
+    file.write_text(yaml.safe_dump(yaml_content))
+    # When
+    last_updated = get_last_updated(file)
+    # Then
+    assert last_updated == datetime.datetime(2026, 9, 22, 14, 30, 0)

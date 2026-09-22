@@ -1,5 +1,6 @@
 ### Imports
 # Standard library
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
 
@@ -35,6 +36,8 @@ def main_(file: Path, data: dict) -> dict:
     return data
 
 
+def get_last_updated(file: Path) -> datetime:
+    return read_yaml(file)["last_updated"]
 
 
 
@@ -44,17 +47,23 @@ def main():
         {
             "type": Types.RUN,
             "title": "morgen løb",
-            "time": date
+            "time": datetime(2026, 9, 21, 9, 0, 0)
         },
         {
             "type": Types.RUN,
-            "title": "morgen løb"
+            "title": "morgen løb",
+            "time": datetime(2026, 9, 22, 10, 0, 0)
         },
         {
             "type": Types.SVIMNING,
-            "title": "morgen svømning"
+            "title": "morgen svømning",
+            "time": datetime(2026, 9, 23, 10, 0, 0)
         },
     ]
+
+    last_updated = get_last_updated(file)
+    print(last_updated)
+    return
 
     # main
     for d in elements:
